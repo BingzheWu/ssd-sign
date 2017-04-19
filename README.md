@@ -20,8 +20,8 @@ remarkable traits of MXNet.
 Here are some results on images from internet.
 ### Demo results
 ![demo1](data/demo/apple.png)
-![demo2](https://cloud.githubusercontent.com/assets/3307514/19171063/91ec2792-8be0-11e6-983c-773bd6868fa8.png)
-![demo3](https://cloud.githubusercontent.com/assets/3307514/19171086/a9346842-8be0-11e6-8011-c17716b22ad3.png)
+![demo2](data/demo/stop.png)
+![demo3](data/demo/index.png)
 
 ### mAP
 |        Model          | Training data    | Test data |  mAP |
