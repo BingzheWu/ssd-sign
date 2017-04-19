@@ -2,7 +2,11 @@
 
 SSD is an unified framework for object detection with a single network.
 
-You can use the code to train/evaluate/test for object detection task.
+This is an implementation for the final course project of image preprocessing.
+
+Our implementation is based on the  ssd exmaple in mxnet, we modify some code to use our algorithms.
+
+You can use the code to train/evaluate/test for sign detection task.
 
 ### Disclaimer
 This is a re-implementation of original SSD which is based on caffe. The official
@@ -12,12 +16,10 @@ The arXiv paper is available [here](http://arxiv.org/abs/1512.02325).
 This example is intended for reproducing the nice detector while fully utilize the
 remarkable traits of MXNet.
 * The model is fully compatible with caffe version.
-* The prediction result is almost identical to the original version. However, due to different non-maximum suppression Implementation, the results might differ slightly.
 
-Due to the permission issue, this example is maintained in this [repository](https://github.com/zhreshold/mxnet-ssd) separately. You can use the link regarding specific per example [issues](https://github.com/zhreshold/mxnet-ssd/issues).
-
+Here are some results on images from internet.
 ### Demo results
-![demo1](https://cloud.githubusercontent.com/assets/3307514/19171057/8e1a0cc4-8be0-11e6-9d8f-088c25353b40.png)
+![demo1](data/demo/apple.png)
 ![demo2](https://cloud.githubusercontent.com/assets/3307514/19171063/91ec2792-8be0-11e6-983c-773bd6868fa8.png)
 ![demo3](https://cloud.githubusercontent.com/assets/3307514/19171086/a9346842-8be0-11e6-8011-c17716b22ad3.png)
 
