@@ -6,6 +6,7 @@ import numpy as np
 from PIL import Image
 from imdb import Imdb
 import cv2
+import cPickle
 IMG_EXTENSIONS = [
         '.jpg', '.JPG', '.jpeg', '.JPEG',
         '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP',
@@ -20,9 +21,10 @@ def default_image_loader(path):
     return img
 
 class sign(Imdb):
-    def __init__(self, sign_root, loader = default_image_loader, shuffle = False, is_train = True):
+    def __init__(self, sign_root, train_list=None, loader = default_image_loader, shuffle = False, is_train = True):
         super(sign, self).__init__('sign')
         self.sign_root = sign_root
+        self.train_list = train_list
         self.classes = self.get_classes()
         self.num_classes = len(self.classes)
         self.is_train = is_train
@@ -32,10 +34,12 @@ class sign(Imdb):
         self.loader = loader
         if self.is_train:
             self.labels = self._load_image_labels()
-    def get_classes(self, mode = 'All'):
+    def get_classes(self, mode = 'train'):
         if mode == 'All':
             traffic_sign = os.path.join(self.sign_root, 'Images', mode)
             classes = os.listdir(traffic_sign)
+        elif mode == 'train':
+             classes = cPickle.load(open('sign_classes', 'rb'))
         return classes 
     def class2idx(self):
         class_idx = {self.classes[i]:  i for i in range(len(self.classes))}
@@ -45,6 +49,17 @@ class sign(Imdb):
         annotations = []
         images_dir = os.path.join(self.sign_root, 'Images', mode)
         annotations_dir = os.path.join(self.sign_root, 'Annotations', mode)
+        with open('trainset.txt', 'r') as f:
+            for image_file in f.readlines():
+                image_class, _, image_path = image_file.split(' ')
+                if image_class!='no-logo':
+                    image_file_path = os.path.join(self.sign_root, image_path.strip())
+                    box_path = image_path.split('/')[1] 
+                    box_path = os.path.join(self.sign_root, 'Annotations', box_path,image_class, _+'.bboxes.txt' )
+                    item = (box_path, self.class_idx[image_class])
+                    images.append(image_file_path.strip())
+                    annotations.append(item)
+        '''
         for target in self.classes:
             d = os.path.join(annotations_dir, target)
             if not os.path.isdir(d):
@@ -57,6 +72,7 @@ class sign(Imdb):
                     item = (path, self.class_idx[target])
                     images.append(image_path.strip())
                     annotations.append(item)
+        '''
         return images, annotations
     def image_path_from_index(self, index):
         name = self.image_set_index[index]
