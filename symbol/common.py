@@ -37,7 +37,22 @@ def conv_act_layer(from_layer, name, num_filter, kernel=(1,1), pad=(0,0), \
     if use_batchnorm:
         relu = mx.symbol.BatchNorm(data=relu, name="bn{}".format(name))
     return conv, relu
-
+def depth_wise_conv1(data, n_in_ch, n_out_ch, kernel, pad, name, depth_mult = 1):
+    channels = mx.symbol.SliceChannel(data, axis = 1, num_outputs = n_in_ch)
+    dw_outs = [mx.symbol.Convolution(data = channels[i], num_filter = depth_mult,
+                                    pad = pad, kernel = kernel, no_bias = True, 
+                                    name = name+'depthwise_kernel'+str(i))
+                        for i in range(n_in_ch)]
+    dw_out = mx.symbol.Concat(*dw_outs)
+    pw_out = mx.symbol.Convolution(dw_out, num_filter = n_out_ch, kernel = (1,1),
+                                  no_bias = True, name = name+'_point_wise_kernel')
+    return pw_out
+def depth_wise_conv(data, num_group, num_filter, kernel, pad, name):
+    conv = mx.symbol.Convolution(data = data, kernel =  kernel, pad = pad, 
+                                num_filter = num_group, name = name+'_depthwise', num_group = num_group)
+    relu = mx.symbol.Activation(data = conv, act_type = 'relu')
+    conv2 = mx.symbol.Convolution(data = relu, kernel = (1,1), num_filter = num_filter, name= name+'_pointwise')
+    return conv2
 def multibox_layer(from_layers, num_classes, sizes=[.2, .95],
                     ratios=[1], normalization=-1, num_channels=[],
                     clip=True, interm_layer=0):

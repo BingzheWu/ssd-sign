@@ -203,7 +203,6 @@ def train_net(net, dataset, image_set, year, devkit_path, batch_size,
     # load symbol
     sys.path.append(os.path.join(cfg.ROOT_DIR, 'symbol'))
     net = importlib.import_module("symbol_" + net).get_symbol_train(imdb.num_classes)
-    print(net.list_arguments())
     # define layers with fixed weight/bias
     fixed_param_names = [name for name in net.list_arguments() \
         if name.startswith('conv1_') or name.startswith('conv2_') ]
@@ -228,6 +227,8 @@ def train_net(net, dataset, image_set, year, devkit_path, batch_size,
             .format(ctx_str, pretrained))
         _, args, auxs = mx.model.load_checkpoint(pretrained, epoch)
         args = convert_pretrained(pretrained, args)
+        #args = dict({k: args[k] for k in args if 'conv1' in k or 'conv2' in k or 'conv3' in k or 'conv4' in k})
+        print(args)
         args = dict({k: args[k] for k in args if 'cls' not in k and 'loc' not in k})
     else:
         logger.info("Experimental: start training from scratch with {}"
@@ -252,12 +253,14 @@ def train_net(net, dataset, image_set, year, devkit_path, batch_size,
     optimizer_params={'learning_rate':learning_rate,
                       'momentum':momentum,
                       'wd':weight_decay,
-                      'lr_scheduler':lr_scheduler,
+                      'lr_scheduler':None,
                       'clip_gradient':None,
                       'rescale_grad': 1.0}
+    print(optimizer_params)
     monitor = mx.mon.Monitor(iter_monitor, pattern=".*") if iter_monitor > 0 else None
     initializer = mx.init.Mixed([".*scale", ".*"], \
         [ScaleInitializer(), mx.init.Xavier(magnitude=1)])
+    print(args)
     mod.fit(train_iter,
             eval_data=val_iter,
             eval_metric=MultiBoxMetric(),

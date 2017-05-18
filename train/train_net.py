@@ -223,7 +223,8 @@ def train_net(net, dataset, image_set, year, devkit_path, batch_size,
             .format(ctx_str, pretrained))
         _, args, auxs = mx.model.load_checkpoint(pretrained, epoch)
         args = convert_pretrained(pretrained, args)
-        args = dict({k:args[k] for k in args if 'cls' not in k and 'loc' in k})
+        args = dict({k:args[k] for k in args if 'conv1'  in k })
+        #args = dict({k:args[k] for k in args if 'cls' not in k and 'loc' in k})
     else:
         logger.info("Experimental: start training from scratch with {}"
             .format(ctx_str))
@@ -244,6 +245,7 @@ def train_net(net, dataset, image_set, year, devkit_path, batch_size,
     epoch_end_callback = mx.callback.do_checkpoint(prefix)
     iter_refactor = lr_refactor_epoch * imdb.num_images // train_iter.batch_size
     lr_scheduler = mx.lr_scheduler.FactorScheduler(iter_refactor, lr_refactor_ratio)
+    print(learning, momentum)
     optimizer_params={'learning_rate':learning_rate,
                       'momentum':momentum,
                       'wd':weight_decay,
@@ -253,7 +255,7 @@ def train_net(net, dataset, image_set, year, devkit_path, batch_size,
     monitor = mx.mon.Monitor(iter_monitor, pattern=".*") if iter_monitor > 0 else None
     initializer = mx.init.Mixed([".*scale", ".*"], \
         [ScaleInitializer(), mx.init.Xavier(magnitude=1)])
-
+    print(args)
     mod.fit(train_iter,
             eval_data=val_iter,
             eval_metric=MultiBoxMetric(),

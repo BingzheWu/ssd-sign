@@ -21,7 +21,7 @@ def parse_args():
     parser.add_argument('--devkit-path', dest='devkit_path', help='VOCdevkit path',
                         default=os.path.join(os.getcwd(), 'data', 'VOCdevkit'), type=str)
     parser.add_argument('--network', dest='network', type=str, default='vgg16_reduced',
-                        choices=['vgg16_reduced'], help='which network to use')
+                        choices=['vgg16_reduced', 'vgg16_mobile_net'], help='which network to use')
     parser.add_argument('--batch-size', dest='batch_size', type=int, default=10,
                         help='training batch size')
     parser.add_argument('--resume', dest='resume', type=int, default=-1,
@@ -39,7 +39,7 @@ def parse_args():
     parser.add_argument('--begin-epoch', dest='begin_epoch', help='begin epoch of training',
                         default=0, type=int)
     parser.add_argument('--end-epoch', dest='end_epoch', help='end epoch of training',
-                        default=100, type=int)
+                        default=150, type=int)
     parser.add_argument('--frequent', dest='frequent', help='frequency of logging',
                         default=20, type=int)
     parser.add_argument('--data-shape', dest='data_shape', type=int, default=300,
