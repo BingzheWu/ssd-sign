@@ -3579,3 +3579,8 @@ Epoch[149] Train-ObjectAcc=0.667841
 Epoch[149] Train-SmoothL1=1.666634
 Epoch[149] Time cost=103.281
 Saved checkpoint to "model/ssd300_vgg16_5_mobile_300-0150.params"
+Experimental: start training from scratch with (gpu(0))
+Experimental: start training from scratch with (gpu(0))
+Epoch[0] Batch [20]	Speed: 12.30 samples/sec	Train-Acc=0.516571
+Epoch[0] Batch [20]	Speed: 12.30 samples/sec	Train-ObjectAcc=0.006919
+Epoch[0] Batch [20]	Speed: 12.30 samples/sec	Train-SmoothL1=38.645736
