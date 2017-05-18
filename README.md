@@ -65,7 +65,7 @@ You might need to change the parameters a bit if you have different configuratio
 Check `python train.py --help` for more training options. For example, if you have 2 GPUs, use:
 ```
 # note that a perfect training parameter set is yet to be discovered for multi-GPUs
- python train.py --dataset=sign --network=vgg16_reduced --resume=-1 --finetune=0 --pretrained=''  --prefix=model/ssd300_sign  --batch-size=40 --gpus=0,1
+python train.py --dataset=sign --network=vgg16_reduced --resume=-1  --finetune=0 --pretrained=''  --prefix=model/ssd300_vgg16_5_mobile  --batch-size=20 --gpus=0
  ```
 * Memory usage: MXNet is very memory efficient, training on `VGG16_reduced` model with `batch-size` 32 takes around 4684MB without CUDNN.
 * Initial lenarning rate: 0.001 is fine for single GPU. 0.0001 should be used for the first couple of epoches then go back to 0.001 via using parameter --resume.

@@ -3584,3 +3584,8 @@ Experimental: start training from scratch with (gpu(0))
 Epoch[0] Batch [20]	Speed: 12.30 samples/sec	Train-Acc=0.516571
 Epoch[0] Batch [20]	Speed: 12.30 samples/sec	Train-ObjectAcc=0.006919
 Epoch[0] Batch [20]	Speed: 12.30 samples/sec	Train-SmoothL1=38.645736
+Start training with (gpu(0)) from pretrained model  
+Experimental: start training from scratch with (gpu(0))
+Epoch[0] Batch [20]	Speed: 12.39 samples/sec	Train-Acc=0.454021
+Epoch[0] Batch [20]	Speed: 12.39 samples/sec	Train-ObjectAcc=0.022178
+Epoch[0] Batch [20]	Speed: 12.39 samples/sec	Train-SmoothL1=36.822661
